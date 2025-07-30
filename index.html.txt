@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NestOcean - Premium Real Estate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .hero-gradient { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .property-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .property-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .nav-link { transition: color 0.3s ease; }
+        .nav-link:hover { color: #667eea; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .btn-primary:hover { background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%); }
+        .rotate-180 { transform: rotate(180deg); }
+        .fa-chevron-down { transition: transform 0.3s ease; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-gray-800">
+                        <i class="fas fa-home text-blue-600 mr-2"></i>NestOcean
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Home</a>
+                        <a href="#properties" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Properties</a>
+                        <a href="#services" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Services</a>
+                        <a href="#about" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">About</a>
+                        <a href="#contact" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-blue-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#home" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Home</a>
+                <a href="#properties" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Properties</a>
+                <a href="#services" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Services</a>
+                <a href="#about" class="block px-3 py-2 text-gray-700 hover:text-blue-600">About</a>
+                <a href="#contact" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient text-white pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">Find Your Dream Home</h1>
+                <p class="text-xl md:text-2xl mb-8 opacity-90">Discover premium properties with NestOcean's expert guidance</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="btn-primary text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        <i class="fas fa-search mr-2"></i>Browse Properties
+                    </button>
+                    <button class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-gray-800 transition-all">
+                        <i class="fas fa-phone mr-2"></i>Contact Agent
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Bar -->
+    <section class="bg-white shadow-lg -mt-12 relative z-10">
+        <div class="max-w-4xl mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                    <input type="text" placeholder="Enter location (e.g., New York, Los Angeles, Miami)" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Property Type</label>
+                    <div class="relative">
+                        <button type="button" id="property-type-dropdown" class="multiselect dropdown-toggle btn btn-default w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-left focus:ring-2 focus:ring-blue-500 focus:border-transparent flex items-center justify-between" title="Residential Apartment Flat, Builder Floor, Independent House Villa, Farm House, Studio Apartment, Residential Plots, Serviced Apartments, Other">
+                            <span class="multiselect-selected-text">8 selected</span>
+                            <b class="caret ml-2">
+                                <i class="fas fa-chevron-down text-gray-400"></i>
+                            </b>
+                        </button>
+                        <div id="property-type-menu" class="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg mt-1 z-10 hidden">
+                            <div class="p-2 max-h-60 overflow-y-auto">
+                                <label class="flex items-center p-2 hover:bg-gray-50 cursor-pointer">
+                                    <input type="checkbox" checked class="mr-2 text-blue-600">
+                                    <span class="text-sm">Residential Apartment Flat</span>
+                                </label>
+                                <label class="flex items-center p-2 hover:bg-gray-50 cursor-pointer">
+                                    <input type="checkbox" checked class="mr-2 text-blue-600">
+                                    <span class="text-sm">Builder Floor</span>
+                                </label>
+                                <label class="flex items-center p-2 hover:bg-gray-50 cursor-pointer">
+                                    <input type="checkbox" checked class="mr-2 text-blue-600">
+                                    <span class="text-sm">Independent House Villa</span>
+                                </label>
+                                <label class="flex items-center p-2 hover:bg-gray-50 cursor-pointer">
+                                    <input type="checkbox" checked class="mr-2 text-blue-600">
+                                    <span class="text-sm">Farm House</span>
+                                </label>
+                                <label class="flex items-center p-2 hover:bg-gray-50 cursor-pointer">
+                                    <input type="checkbox" checked class="mr-2 text-blue-600">
+                                    <span class="text-sm">Studio Apartment</span>
+                                </label>
+                                <label class="flex items-center p-2 hover:bg-gray-50 cursor-pointer">
+                                    <input type="checkbox" checked class="mr-2 text-blue-600">
+                                    <span class="text-sm">Residential Plots</span>
+                                </label>
+                                <label class="flex items-center p-2 hover:bg-gray-50 cursor-pointer">
+                                    <input type="checkbox" checked class="mr-2 text-blue-600">
+                                    <span class="text-sm">Serviced Apartments</span>
+                                </label>
+                                <label class="flex items-center p-2 hover:bg-gray-50 cursor-pointer">
+                                    <input type="checkbox" checked class="mr-2 text-blue-600">
+                                    <span class="text-sm">Other</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
+                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option>Any Price</option>
+                        <option>₹10L - ₹30L</option>
+                        <option>₹30L - ₹50L</option>
+                        <option>₹50L - ₹1Cr</option>
+                        <option>₹1Cr+</option>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button class="w-full btn-primary text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        <i class="fas fa-search mr-2"></i>Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Properties -->
+    <section id="properties" class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Featured Properties</h2>
+                <p class="text-lg text-gray-600">Discover our handpicked selection of premium properties</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Property 1 -->
+                <div class="property-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <div class="h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                            <i class="fas fa-home text-white text-4xl"></i>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            For Sale
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white bg-opacity-90 p-2 rounded-full">
+                            <i class="fas fa-heart text-gray-400 hover:text-red-500 cursor-pointer"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Modern Villa in Beverly Hills</h3>
+                        <p class="text-gray-600 mb-4">
+                            <i class="fas fa-map-marker-alt mr-2"></i>Beverly Hills, CA
+                        </p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex space-x-4 text-sm text-gray-600">
+                                <span><i class="fas fa-bed mr-1"></i>4 Beds</span>
+                                <span><i class="fas fa-bath mr-1"></i>3 Baths</span>
+                                <span><i class="fas fa-ruler-combined mr-1"></i>2,500 sq ft</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$1,250,000</span>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 2 -->
+                <div class="property-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <div class="h-48 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
+                            <i class="fas fa-building text-white text-4xl"></i>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            For Rent
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white bg-opacity-90 p-2 rounded-full">
+                            <i class="fas fa-heart text-gray-400 hover:text-red-500 cursor-pointer"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Luxury Penthouse Downtown</h3>
+                        <p class="text-gray-600 mb-4">
+                            <i class="fas fa-map-marker-alt mr-2"></i>Manhattan, NY
+                        </p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex space-x-4 text-sm text-gray-600">
+                                <span><i class="fas fa-bed mr-1"></i>3 Beds</span>
+                                <span><i class="fas fa-bath mr-1"></i>2 Baths</span>
+                                <span><i class="fas fa-ruler-combined mr-1"></i>1,800 sq ft</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$4,500/mo</span>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 3 -->
+                <div class="property-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative">
+                        <div class="h-48 bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center">
+                            <i class="fas fa-home text-white text-4xl"></i>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            For Sale
+                        </div>
+                        <div class="absolute top-4 right-4 bg-white bg-opacity-90 p-2 rounded-full">
+                            <i class="fas fa-heart text-gray-400 hover:text-red-500 cursor-pointer"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Cozy Family Home</h3>
+                        <p class="text-gray-600 mb-4">
+                            <i class="fas fa-map-marker-alt mr-2"></i>Austin, TX
+                        </p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex space-x-4 text-sm text-gray-600">
+                                <span><i class="fas fa-bed mr-1"></i>3 Beds</span>
+                                <span><i class="fas fa-bath mr-1"></i>2 Baths</span>
+                                <span><i class="fas fa-ruler-combined mr-1"></i>1,600 sq ft</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$485,000</span>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <button class="btn-primary text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                    View All Properties
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="bg-gray-100 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Services</h2>
+                <p class="text-lg text-gray-600">Comprehensive real estate solutions for all your needs</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-search text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Property Search</h3>
+                    <p class="text-gray-600">Find your perfect property with our advanced search tools and expert guidance.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-handshake text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Buying Assistance</h3>
+                    <p class="text-gray-600">Complete support throughout the buying process from viewing to closing.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-tag text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Property Selling</h3>
+                    <p class="text-gray-600">Maximize your property value with our proven marketing strategies.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-line text-orange-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Market Analysis</h3>
+                    <p class="text-gray-600">Get detailed market insights and property valuations from our experts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">About NestOcean</h2>
+                    <p class="text-lg text-gray-600 mb-6">
+                        With over 15 years of experience in the real estate industry, NestOcean has helped thousands of families find their perfect homes. We combine local market expertise with cutting-edge technology to deliver exceptional results.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">2,500+</div>
+                            <div class="text-gray-600">Properties Sold</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">98%</div>
+                            <div class="text-gray-600">Client Satisfaction</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">15+</div>
+                            <div class="text-gray-600">Years Experience</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">50+</div>
+                            <div class="text-gray-600">Expert Agents</div>
+                        </div>
+                    </div>
+                    <button class="btn-primary text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                        Learn More About Us
+                    </button>
+                </div>
+                <div class="bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl p-8 text-white">
+                    <div class="text-center">
+                        <i class="fas fa-award text-6xl mb-6 opacity-80"></i>
+                        <h3 class="text-2xl font-bold mb-4">Award-Winning Service</h3>
+                        <p class="text-lg opacity-90 mb-6">
+                            Recognized as the top real estate agency in the region for three consecutive years.
+                        </p>
+                        <div class="flex justify-center space-x-4">
+                            <i class="fas fa-star text-yellow-300 text-xl"></i>
+                            <i class="fas fa-star text-yellow-300 text-xl"></i>
+                            <i class="fas fa-star text-yellow-300 text-xl"></i>
+                            <i class="fas fa-star text-yellow-300 text-xl"></i>
+                            <i class="fas fa-star text-yellow-300 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="bg-gray-800 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
+                <p class="text-lg text-gray-300">Ready to find your dream property? Contact our expert team today.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6">Contact Information</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-blue-400 text-xl mr-4"></i>
+                            <div>
+                                <div class="font-semibold">Address</div>
+                                <div class="text-gray-300">123 Ocean Drive, Miami, FL 33139</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-blue-400 text-xl mr-4"></i>
+                            <div>
+                                <div class="font-semibold">Phone</div>
+                                <div class="text-gray-300">+1 (555) 123-4567</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-blue-400 text-xl mr-4"></i>
+                            <div>
+                                <div class="font-semibold">Email</div>
+                                <div class="text-gray-300">info@nestocean.com</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-clock text-blue-400 text-xl mr-4"></i>
+                            <div>
+                                <div class="font-semibold">Office Hours</div>
+                                <div class="text-gray-300">Mon - Fri: 9AM - 6PM</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center hover:bg-blue-800 transition-colors">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6">Send us a Message</h3>
+                    <div class="bg-gray-700 p-6 rounded-xl">
+                        <p class="text-yellow-300 mb-4 text-sm">
+                            <i class="fas fa-info-circle mr-2"></i>Demo Form - Messages will not be sent
+                        </p>
+                        <form class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input type="text" placeholder="First Name" class="w-full px-4 py-3 bg-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                <input type="text" placeholder="Last Name" class="w-full px-4 py-3 bg-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            </div>
+                            <input type="email" placeholder="Email Address" class="w-full px-4 py-3 bg-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <input type="tel" placeholder="Phone Number" class="w-full px-4 py-3 bg-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <select class="w-full px-4 py-3 bg-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                <option>I'm interested in...</option>
+                                <option>Buying a property</option>
+                                <option>Selling a property</option>
+                                <option>Renting a property</option>
+                                <option>Property management</option>
+                            </select>
+                            <textarea rows="4" placeholder="Your Message" class="w-full px-4 py-3 bg-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none"></textarea>
+                            <button type="submit" class="w-full btn-primary text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
+                                <i class="fas fa-paper-plane mr-2"></i>Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="text-2xl font-bold mb-4">
+                        <i class="fas fa-home text-blue-400 mr-2"></i>NestOcean
+                    </div>
+                    <p class="text-gray-400 mb-4">Your trusted partner in finding the perfect property. Excellence in real estate since 2008.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#home" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#properties" class="hover:text-white transition-colors">Properties</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Services</a></li>
+                        <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Property Search</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Buying Assistance</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Property Selling</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Market Analysis</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Property Management</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Subscribe to get the latest property updates and market insights.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-1 px-4 py-2 bg-gray-800 text-white rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 NestOcean. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Heart icon toggle for property favorites
+        document.querySelectorAll('.fa-heart').forEach(heart => {
+            heart.addEventListener('click', function() {
+                this.classList.toggle('text-gray-400');
+                this.classList.toggle('text-red-500');
+            });
+        });
+
+        // Property type multiselect dropdown
+        const propertyDropdown = document.getElementById('property-type-dropdown');
+        const propertyMenu = document.getElementById('property-type-menu');
+        const selectedText = document.querySelector('.multiselect-selected-text');
+
+        propertyDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+            propertyMenu.classList.toggle('hidden');
+            const chevron = this.querySelector('.fa-chevron-down');
+            chevron.classList.toggle('rotate-180');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            propertyMenu.classList.add('hidden');
+            const chevron = propertyDropdown.querySelector('.fa-chevron-down');
+            chevron.classList.remove('rotate-180');
+        });
+
+        // Handle checkbox changes
+        const checkboxes = propertyMenu.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+                selectedText.textContent = checkedCount > 0 ? `${checkedCount} selected` : 'Select property types';
+            });
+        });
+
+        // Search functionality
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            alert('Search functionality would connect to your property database. This is a demo version.');
+        });
+
+        // Contact form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! This is a demo form. In a real application, this would send your message to our team.');
+        });
+
+        // Property view details buttons
+        document.querySelectorAll('button:contains("View Details")').forEach(button => {
+            if (button.textContent.includes('View Details')) {
+                button.addEventListener('click', function() {
+                    alert('Property details would open in a new page or modal. This is a demo version.');
+                });
+            }
+        });
+
+        // Newsletter subscription
+        document.querySelector('footer button').addEventListener('click', function() {
+            const email = this.previousElementSibling.value;
+            if (email) {
+                alert('Thank you for subscribing! This is a demo version.');
+                this.previousElementSibling.value = '';
+            } else {
+                alert('Please enter your email address.');
+            }
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('shadow-xl');
+            } else {
+                nav.classList.remove('shadow-xl');
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96726cee5265a6da',t:'MTc1Mzg1MzAyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
